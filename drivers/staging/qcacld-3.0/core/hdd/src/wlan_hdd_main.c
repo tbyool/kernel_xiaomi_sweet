@@ -16678,6 +16678,8 @@ static int hdd_module_init(void)
 	return ret;
 }
 
+#undef hdd_fln
+
 /**
  * hdd_module_exit() - Exit function
  *
