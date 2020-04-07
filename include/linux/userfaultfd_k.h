@@ -53,7 +53,8 @@ enum mcopy_atomic_mode {
 };
 
 extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-			    unsigned long src_start, unsigned long len);
+			    unsigned long src_start, unsigned long len,
+			    __u64 mode);
 extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
 			      unsigned long dst_start,
 			      unsigned long len);
