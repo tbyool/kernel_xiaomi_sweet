@@ -980,6 +980,7 @@ int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl)
 			pr_info("skip set backlight=0 bacase fod_dimlayer_hbm_enabled enable");
 			return 0;
 		}
+	}
 
 	if (bl_lvl > 0)
 		bl_lvl = ea_panel_calc_backlight(bl_lvl < bl_dc_min ? bl_dc_min : bl_lvl);
