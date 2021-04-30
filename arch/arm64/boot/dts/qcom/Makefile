@@ -2,7 +2,7 @@
 ifeq ($(CONFIG_MACH_XIAOMI),y)
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 dtbo-$(CONFIG_MACH_XIAOMI_SWEET) += sweet-sdmmagpie-overlay.dtbo
-sweet-sdmmagpie-overlay.dtbo-base := sdmmagpie.dtb
+sweet-sdmmagpie-overlay.dtbo-base := xiaomi-sdmmagpie.dtb
 endif
 else
 ifeq ($(TARGET_BOARD_TYPE),auto)
