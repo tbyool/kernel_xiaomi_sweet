@@ -53,8 +53,6 @@ static struct delayed_work prim_panel_work;
 static atomic_t prim_panel_is_on;
 static struct wakeup_source prim_panel_wakelock;
 
-struct msm_drm_notifier g_notify_data;
-
 static void convert_to_dsi_mode(const struct drm_display_mode *drm_mode,
 				struct dsi_display_mode *dsi_mode)
 {
@@ -201,7 +199,7 @@ static void dsi_bridge_pre_enable(struct drm_bridge *bridge)
 
 	event = dev->doze_state;
 
-	g_notify_data.data = &event;
+	notify_data.data = &event;
 
 	if (!bridge) {
 		pr_err("Invalid params\n");
@@ -242,7 +240,7 @@ static void dsi_bridge_pre_enable(struct drm_bridge *bridge)
 		}
 	}
 
-	msm_drm_notifier_call_chain(MSM_DRM_EARLY_EVENT_BLANK, &g_notify_data);
+	msm_drm_notifier_call_chain(MSM_DRM_EARLY_EVENT_BLANK, &notify_data);
 
 	atomic_set(&c_bridge->display->panel->esd_recovery_pending, 0);
 
@@ -271,7 +269,7 @@ static void dsi_bridge_pre_enable(struct drm_bridge *bridge)
 		(void)dsi_display_unprepare(c_bridge->display);
 	}
 
-	msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &g_notify_data);
+	msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &notify_data);
 
 	SDE_ATRACE_END("dsi_display_enable");
 
@@ -510,6 +508,7 @@ static void dsi_bridge_post_disable(struct drm_bridge *bridge)
 	int rc = 0;
 	struct dsi_bridge *c_bridge = to_dsi_bridge(bridge);
 	struct drm_device *dev = bridge->dev;
+	struct msm_drm_notifier notify_data;
 	int event = 0;
 	int power_mode;
 
@@ -519,8 +518,7 @@ static void dsi_bridge_post_disable(struct drm_bridge *bridge)
 	}
 
 	event = dev->doze_state;
-
-	g_notify_data.data = &event;
+	notify_data.data = &event;
 
 	if (!bridge) {
 		pr_err("Invalid params\n");
@@ -535,6 +533,7 @@ static void dsi_bridge_post_disable(struct drm_bridge *bridge)
 
 	SDE_ATRACE_BEGIN("dsi_bridge_post_disable");
 	SDE_ATRACE_BEGIN("dsi_display_disable");
+
 	rc = dsi_display_disable(c_bridge->display);
 	if (rc) {
 		pr_err("[%d] DSI display disable failed, rc=%d\n",
@@ -553,7 +552,7 @@ static void dsi_bridge_post_disable(struct drm_bridge *bridge)
 	}
 	SDE_ATRACE_END("dsi_bridge_post_disable");
 
-	msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &g_notify_data);
+	msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &notify_data);
 
 	if (c_bridge->display->is_prim_display)
 		atomic_set(&prim_panel_is_on, false);
