@@ -43,6 +43,11 @@ LINUXINCLUDE    += \
                 -I$(srctree)/techpack/audio/include/uapi \
                 -I$(srctree)/techpack/audio/include
 
+ifeq ($(CONFIG_US_PROXIMITY), y)
+LINUXINCLUDE    += \
+                -I$(srctree)/techpack/audio/include/mius
+endif
+
 ifeq ($(CONFIG_ARCH_SDM845), y)
 LINUXINCLUDE    += \
                 -include $(srctree)/techpack/audio/config/sdm845autoconf.h
@@ -78,6 +83,9 @@ endif
 
 obj-y += soc/
 obj-y += dsp/
+ifeq ($(CONFIG_US_PROXIMITY), y)
+obj-y += dsp/mius
+endif
 obj-y += ipc/
 obj-y += asoc/
 else
