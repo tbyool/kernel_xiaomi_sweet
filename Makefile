@@ -788,7 +788,7 @@ KBUILD_CFLAGS   += -Os
 KBUILD_CFLAGS	+= $(OPT_FLAGS)
 KBUILD_AFLAGS   += $(OPT_FLAGS)
 ifdef CONFIG_LTO_CLANG
-KBUILD_LDFLAGS += --plugin-opt=O3 --strip-debug -march=armv8.2-a+crypto+crc+dotprod -mcpu=cortex-a76+crypto+crc -mtune=cortex-a76 -mllvm -regalloc-enable-advisor=release
+KBUILD_LDFLAGS += --plugin-opt=O3 --strip-debug -march=armv8.2-a+crypto+crc+dotprod -mcpu=cortex-a76+crypto+crc -mtune=cortex-a76
 else
 KBUILD_LDFLAGS += $(OPT_FLAGS)
 endif
@@ -859,8 +859,6 @@ KBUILD_CFLAGS += $(call cc-option, -Wno-sometimes-uninitialized)
 KBUILD_CFLAGS += $(call cc-option, -Wno-pointer-to-int-cast)
 KBUILD_CFLAGS += $(call cc-option, -Wno-void-pointer-to-int-cast)
 
-# Enable MLGO for register allocation.
-KBUILD_CFLAGS   += -mllvm -regalloc-enable-advisor=release
 # Enable hot cold split optimization
 KBUILD_CFLAGS   += -mllvm -hot-cold-split=true
 
