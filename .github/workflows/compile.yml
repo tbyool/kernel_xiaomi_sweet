@@ -1,0 +1,35 @@
+name: Compiling kernel
+
+on:
+  push:
+    branches:
+      - "14-15"
+      - "11-13"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: recursive
+          
+      - name: Convert submodules to full depth
+        run: git submodule foreach --recursive 'git fetch --unshallow || true'
+
+      - name: Set up dependencies
+        run: |
+          sudo apt update
+          sudo apt install bc build-essential bison flex zip gcc clang libc6 curl libstdc++6 git wget libssl-dev zstd lld python3 -y
+
+      - name: Setup Telegram bot and compile the kernel
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.tg_token }}
+          TELEGRAM_CHAT: ${{ secrets.tg_chat }}
+        run: |
+          wget https://raw.githubusercontent.com/fabianonline/telegram.sh/refs/heads/master/telegram
+          chmod +x ./telegram
+          bash build.sh
