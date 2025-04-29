@@ -766,7 +766,7 @@ ARCH_AFLAGS :=
 ARCH_CFLAGS :=
 include arch/$(SRCARCH)/Makefile
 
-OPT_FLAGS := -O3 -march=armv8.2-a+crypto+crc+dotprod -mcpu=cortex-a76+crypto+crc -mtune=cortex-a76
+OPT_FLAGS := -march=armv8.2-a+crypto+crc+dotprod -mcpu=cortex-a76+crypto+crc -mtune=cortex-a76
 
 KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
@@ -783,17 +783,17 @@ ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
 KBUILD_CFLAGS   += -O2
 else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
 KBUILD_CFLAGS   += -O3
-else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS   += -Os
-KBUILD_CFLAGS	+= $(OPT_FLAGS)
-KBUILD_AFLAGS   += $(OPT_FLAGS)
 ifdef CONFIG_LTO_CLANG
 KBUILD_LDFLAGS += --plugin-opt=O3 --strip-debug -march=armv8.2-a+crypto+crc+dotprod -mcpu=cortex-a76+crypto+crc -mtune=cortex-a76
 else
 KBUILD_LDFLAGS += $(OPT_FLAGS)
 endif
+else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+KBUILD_CFLAGS   += -Os
 endif
 
+KBUILD_CFLAGS	+= $(OPT_FLAGS)
+KBUILD_AFLAGS   += $(OPT_FLAGS)
 
 ifdef CONFIG_CC_WERROR
 KBUILD_CFLAGS  += -Werror
