@@ -164,6 +164,10 @@ msm_drm-$(CONFIG_DRM_MSM_DSI_STAGING) += dsi-staging/dsi_phy.o \
 				dsi-staging/dsi_clk_manager.o \
 				dsi-staging/dsi_display_test.o
 
+ifeq ($(cc-name),gcc)
+CFLAGS_REMOVE_dsi_panel.o += -mgeneral-regs-only
+endif
+
 msm_drm-$(CONFIG_DSI_PARSER) += dsi-staging/dsi_parser.o
 
 msm_drm-$(CONFIG_EXPOSURE_ADJUSTMENT) += dsi-staging/exposure_adjustment.o
