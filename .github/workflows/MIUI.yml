@@ -29,10 +29,7 @@ jobs:
            git clone https://github.com/greenforce-project/gcc-arm64 -b main --depth=1 gcc64
            git clone https://github.com/greenforce-project/gcc-arm -b main --depth=1 gcc32
      
-    - name: Fetch KernelSU-SuSFS
-      run: |
-            curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next-susfs/kernel/setup.sh" | bash -s next-susfs-dev  
-           
+    
     - name: Clean previous build
       run: |
            make clean && make mrproper
