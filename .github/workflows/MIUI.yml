@@ -46,8 +46,8 @@ jobs:
       run: |
            export ARCH=arm64
            export PATH="${PWD}/clang/bin:${PWD}gcc64/bin:${PWD}gcc32/bin:$PATH"  
-           export KBUILD_BUILD_USER=buildkernel1
-           export KBUILD_BUILD_HOST=mhddonip
+           export KBUILD_BUILD_USER=Restrix-Project
+           export KBUILD_BUILD_HOST=nobody
            export KBUILD_COMPILER_STRING="${PWD}/clang"
            make O=out ARCH=arm64 vendor/sweet_defconfig  
            make -j$(nproc --all) O=out \ ARCH=arm64 \ LLVM=1 \ LLVM_IAS=1 \ CLANG_TRIPLE=aarch64-linux-gnu- \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi-
@@ -61,7 +61,7 @@ jobs:
       
     - name: Fetch AnyKernel3
       run: |
-           git clone --depth=1 https://github.com/buildkernel1/Anykernel3.git -b main AnyKernel3  
+           git clone --depth=1 https://github.com/Rattenfangers1/Anykernel3.git -b main AnyKernel3  
            if [ -f out/arch/arm64/boot/Image.gz ]; then
             cp out/arch/arm64/boot/Image.gz AnyKernel3/Image.gz
            fi
@@ -75,7 +75,7 @@ jobs:
     - name: Upload Kernel 
       uses: actions/upload-artifact@v4
       with:
-        name: Strix-Interstellar-MIUI-${{ env.BUILD_TIME }}
+        name: Restrix-Project-MIUI-${{ env.BUILD_TIME }}
         path: AnyKernel3/*
 
 
